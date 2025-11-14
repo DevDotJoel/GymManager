@@ -1,0 +1,46 @@
+class Member:
+    def __init__(self,idt,name,enter=0,sub=False):
+        self.__idt=idt
+        self.__name=name
+        self.enter=enter
+        self.sub=sub
+        
+    @property
+    def idt(self):
+        return self.__idt
+    @property
+    def name(self):
+        return self.__name
+    
+    def buy_enter(self, buy):
+        self.enter+=buy
+    
+    def active_or_unactive(self, process):
+        if process==False:
+            self.sub = False
+        else:
+            self.sub = True        
+        
+    def __str__(self):
+        if self.sub ==False:
+            return str(self.idt)+": "+ self.name + "(" + str(self.enter)+ " entradas disponíveis, subscrição inativa)"
+        else:
+            return str(self.idt)+": "+ self.name + "(" + str(self.enter)+" entradas disponíveis, subscrição ativa)"
+    
+    def __eq__(self,other):
+        if not isinstance (other, self.__class__):
+            return False
+        else:
+            return self.idt==other.idt
+        
+ # Exemplos de objetos Member
+m1 = Member(1, "João Silva")
+m2 = Member(2, "Maria Costa", 3)
+m3 = Member(3, "Pedro Santos", 5, True)
+m4 = Member(4, "Ana Ramos")
+m5 = Member(5, "Carlos Pinto", 8)
+m6 = Member(6, "Rita Gomes", 0, True)
+m7 = Member(7, "Luís Pereira", 2)
+m8 = Member(8, "Sofia Martins", 10, True)
+m9 = Member(9, "Hugo Fernandes", 1)
+m10 = Member(10, "Beatriz Lopes", 4, True)
