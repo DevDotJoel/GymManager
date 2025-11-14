@@ -1,0 +1,68 @@
+class Class:
+    def __init__(self,name1,instrutor,lotacao):
+        self.__name1= name1
+        self.__inst=instrutor
+        self.__lot=lotacao
+        self.alunos=[]
+        
+    @property
+    def name1(self):
+        return self.__name1
+    @property
+    def instrutor(self):
+        return self.__inst
+    @property
+    def lotacao(self):
+        return self.__lot
+    
+    def entrada (self, membro):
+        if not isinstance (membro, Member):
+            print ("Erro de registo!")
+        elif membro in self.alunos:
+            print ("Este aluno já está registado!")
+        elif len(self.alunos) == self.__lot:
+            print ("Aula cheia!")
+        else:
+            self.alunos.append(membro)
+            print(f"{membro.name} entrou na aula {self.name1}.")
+    
+    def saída (self,membro):
+        if not isinstance (membro, Member):
+            print ("Erro de registo!")
+        elif membro in self.alunos:
+            self.alunos.remove(membro)
+        else:
+            print ("Nunca esteve cá...")
+    
+    def are_you_here(self,identificador):
+        for membro in self.alunos:
+            if membro.idt == identificador:
+                print ("Estás aqui!")
+            else:
+                print ("Não estás aqui :(")       
+    
+    def estado (self):
+        ocupadas= len(self.alunos)
+        disponíveis= self.__lot - ocupadas
+        print(f"{ocupadas} vagas ocupadas e {disponíveis} disponíveis, ainda vais a tempo!")
+    
+    def __str__(self):
+        return self.name1+ ": "+ self.__inst+ " ( " + str(len(self.alunos))+ "/"+ str(self.__lot) + ")"
+        
+    def list_students(self):
+        print ("---Participantes de Aula----")
+        for c in self.alunos:
+            print (c)
+    
+ # Exemplos de objetos Class            
+c1  = Class("Yoga Matinal", "Ana Silva", 15)
+c2  = Class("Pilates", "João Mendes", 12)
+c3  = Class("CrossFit", "Rita Costa", 20)
+c4  = Class("Zumba", "Clara Sousa", 18)
+c5  = Class("Karaté", "Hugo Almeida", 10)
+c6  = Class("Musculação", "Pedro Ramos", 25)
+c7  = Class("Spinning", "Marta Ferreira", 16)
+c8  = Class("Boxe", "Tiago Nunes", 14)
+c9  = Class("Dança Contemporânea", "Inês Rocha", 12)
+c10 = Class("Meditação Guiada", "Sofia Martins", 8)            
+             
