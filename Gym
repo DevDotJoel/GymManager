@@ -1,0 +1,137 @@
+class Gym:
+    def __init__(self,nome, localizacao,lotacao):
+        self.__nome= nome
+        self.__loc=localizacao
+        self.__lotacao=lotacao
+        self.alunos=[]
+        self.membros=[]
+        self.aulas=[]
+        
+    @property
+    def nome(self):
+        return self.__nome
+    @property
+    def localizacao(self):
+        return self.__loc
+    @property
+    def lotacao(self):
+        return self.__lotacao
+        
+    def new_member(self,membro):
+        if not isinstance (membro, Member):
+            print ("Erro de registo!")
+        elif membro in self.membros:
+            print ("Este aluno já está registado!")
+        elif len(self.membros) >= self.lotacao:
+            print ("Ginásio cheio!")
+        else:
+            self.membros.append(membro)
+            print (f"{membro.name} registado com sucesso!")
+            
+    def entry (self,membro):
+        if membro not in self.membros:
+            print (f"{membro.nome} não está registado!")
+        elif membro.enter>0:
+            membro.enter-=1
+            self.alunos.append(membro)
+            print (f"Bem vindo {membro.nome} !")
+        else:
+            print ("Tens de comprar entradas!")
+            
+            
+    def out (self,membro):
+        if membro in self.alunos:
+            self.alunos.remove(membro)
+            print ("Até a próxima ;)")
+        else:
+            print ("Este membro nunca esteve presente...")
+    
+    def is_it (self,identificador):
+        for membro in self.alunos:
+            if membro.idt == identificador:
+                print ("Estás aqui!")
+                return True 
+            else:
+                print ("Não estás aqui :(")
+                return False 
+   
+    def gimi_members(self):
+        print ("---Membros do Ginásio----")
+        for c in self.membros:
+            print (c)
+            
+    def in_gimi (self):
+        print ("---No Ginásio----")
+        for c in self.alunos:
+            print (c)
+            
+    def create_class (self, classes):
+        if not isinstance (classes, Class):
+            print ("Erro de registo!")
+        elif classes in self.aulas:
+            print ("Esta é aula já existe")
+        else:
+            name1= input("Qual é o nome da tua aula: ")
+            instrutor= input ("Como se chama o teu instrutor: ")
+            lotacao= int(input("Qual é a lotação máxima: "))
+            classes= Class (name1, instrutor, lotacao)
+            self.aulas.append(classes)
+            print (f"Aula {name1} criada com sucesso!")
+            
+    def cancel_class (self, classes):
+        if not isinstance (classes, Class):
+            print ("Erro de registo!")
+        elif classes in self.aulas:
+            self.aulas.remove(classes)
+            print (f"{classes.name1} foi cancelada com sucesso!")
+        else:
+            print ("Esta aula nunca existiu...")
+            
+    def aula_in_gimi(self):
+        print ("---Aulas a decorrer---")
+        for c in self.aulas:
+            print (c)
+            
+    def estado (self):
+        ocupadas=len(self.alunos)
+        disponivel= self.lotacao - ocupadas
+        print(f"{ocupadas} vagas ocupadas e {disponivel} vagas disponíveis")
+    
+    def __str__(self):
+        return f"{self.nome} @ {self.localizacao} ({len(self.alunos)}/{self.lotacao})"
+
+    #T4: exportação e carregamento a partir de ficheiros???
+    def export_the_gimi(self, filename):
+        f = open (filename, "w")
+        f.write(f"{self.nome}, {self.__loc}, {self.lotacao}\n")
+        for c in self.membros:
+            f.write(f"{c.idt},{c.name},{c.enter},{c.sub}\n")
+        for x in self.aulas:
+            f.write(f"{x.name1},{x.inst},{x.lot}\n")
+        f.close()
+            
+    
+    def carregas (self, filename):
+        f=open(filename, 'r')
+        primeira= f.readline().strip()
+        if primeira:
+            nome, localizacao, lotacao = primeira.strip().split(',')
+            self= Gym ( nome,localizacao,int(lotacao))
+        for line in f:
+            if len(line)==4:
+                idt, name, enter, sub= line.strip().split(',')
+                membro= Member (int(idt), name, int(enter), sub)
+                self.membros.append(membro)
+            elif len(line)==3:
+                name1, inst, lot = line.strip(). split(',')
+                aula= Class (name1, inst, int(lot))
+                self.aulas.append(aula)
+            return self
+            
+        
+        
+
+ # Exemplos de objetos Gym
+g1 = Gym("LCD Fit", "Lisboa", 150)
+g1.new_member(m1)
+g1.create_class(c1)
